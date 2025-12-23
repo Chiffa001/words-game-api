@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+*.log
+*.sqlite3
+*.db
+*.pkl
+*.env
+.env
+
+# Virtualenv
+venv/
+ENV/
+env/
+.venv/
+
+# VS Code
+.vscode/
+
+# PyInstaller
+*.spec
+build/
+dist/
+
+# Mypy / Pyright / Pylint
+.mypy_cache/
+.pyright/
+.pylint.d/
+
+# Coverage
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Test files
+tests/__pycache__/
+tests/*.pyc
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Mac / Linux / Windows
+.DS_Store
+Thumbs.db
