@@ -1,0 +1,28 @@
+[project]
+name = "words-game-api"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "asyncpg>=0.31.0",
+    "fastapi[standard]>=0.127.0",
+    "sqlalchemy>=2.0.45",
+]
+
+[tool.uv.workspace]
+members = [
+    "venv",
+]
+
+[dependency-groups]
+dev = [
+    "pylint>=4.0.4",
+]
+
+[tool.pylint.messages_control]
+disable = [
+    "missing-function-docstring",
+    "missing-module-docstring",
+    "missing-class-docstring",
+]

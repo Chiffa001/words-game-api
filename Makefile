@@ -1,5 +1,5 @@
 # Название виртуального окружения
-VENV=venv
+VENV=.venv
 
 # Команды
 .PHONY: init install run migrate clean
@@ -28,8 +28,8 @@ clean:
 	rm -f ./test.db
 
 lint:
-	. venv/bin/activate && pylint app/
+	. $(VENV)/bin/activate && pylint app/
 
 mypy:
-	. venv/bin/activate && mypy app/
+	. $(VENV)/bin/activate && mypy app/
 
