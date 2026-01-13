@@ -19,7 +19,7 @@ run:
 
 # Инициализация базы данных
 migrate:
-	. $(VENV)/bin/activate && python -c "from app.core.database import Base, engine; Base.metadata.create_all(bind=engine)"
+	. $(VENV)/bin/activate && python -c "from app.core.database import engine; from app.models.base_model import BaseModel; BaseModel.metadata.create_all(bind=engine)"
 
 # Очистка (удаление базы и кэшей)
 clean:

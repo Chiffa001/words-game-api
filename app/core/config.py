@@ -4,4 +4,4 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("POSTGRES_URI")
+DATABASE_URL = os.getenv("POSTGRES_URI", "")
