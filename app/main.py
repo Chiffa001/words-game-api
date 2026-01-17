@@ -2,7 +2,10 @@ from asyncio import run
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 
+from app.core.config import UI
 from app.core.database import engine
 from app.models.base_model import BaseModel
 from app.routes import auth_route, healthmonitor_route
@@ -23,6 +26,15 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[UI],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.add_middleware(HTTPSRedirectMiddleware)
 
 if __name__ == "__main__":
     run(init_models())

@@ -50,3 +50,5 @@ tests/*.pyc
 # Mac / Linux / Windows
 .DS_Store
 Thumbs.db
+
+certs/

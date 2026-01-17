@@ -14,9 +14,5 @@ class UserCreateScheme(UserBaseScheme):
     login: str
 
 
-class UserInitScheme(UserBaseScheme):
-    login: str
-
-
 class UserOutScheme(UserBaseScheme):
     model_config = ConfigDict(from_attributes=True)

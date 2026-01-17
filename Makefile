@@ -15,7 +15,7 @@ install:
 
 # Запуск сервера разработки
 run:
-	. $(VENV)/bin/activate && uvicorn app.main:app --reload
+	. $(VENV)/bin/activate && uvicorn app.main:app --host 0.0.0.0 --port 8000 --ssl-keyfile ./certs/192.168.10.146-key.pem --ssl-certfile ./certs/192.168.10.146.pem --reload
 
 # Инициализация базы данных
 migrate:
@@ -32,4 +32,3 @@ lint:
 
 mypy:
 	. $(VENV)/bin/activate && mypy app/
-
