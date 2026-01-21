@@ -2,7 +2,7 @@
 VENV=.venv
 
 # Команды
-.PHONY: init install run migrate clean revision upgrade
+.PHONY: init install run migrate clean revision upgrade lint mypy test check
 
 # Создание виртуального окружения и установка зависимостей
 init:
@@ -40,3 +40,12 @@ lint:
 
 mypy:
 	uv run mypy app/
+
+test:
+	uv run pytest || { code=$$?; if [ $$code -eq 5 ]; then exit 0; fi; exit $$code; }
+
+check:
+	uv run python -m compileall app/
+	$(MAKE) mypy
+	$(MAKE) lint
+	$(MAKE) test

@@ -1,10 +1,12 @@
-from sqlalchemy import Integer, String, DateTime, text
+from sqlalchemy import DateTime, Integer, String, text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base_model import BaseModel
 
 
 class UserModel(BaseModel):
+    # SQLAlchemy models can be data-only containers.
+    # pylint: disable=too-few-public-methods
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(

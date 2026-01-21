@@ -1,12 +1,12 @@
 import hashlib
 import hmac
 import time
+import traceback
 from typing import Dict
 from urllib.parse import parse_qs, unquote
 
 from fastapi import Depends, Request, status
 from fastapi.exceptions import HTTPException
-from pydantic import ValidationError
 
 from app.core.config import BOT_TOKEN
 from app.schemes.tg_scheme import InitData
@@ -67,12 +67,10 @@ class AuthService:
 
             return True
 
-        except Exception as e:
-            print(f"Validation error: {e}")
-            import traceback
-
+        except Exception as exc:
+            print(f"Validation error: {exc}")
             traceback.print_exc()
-            raise ValidationError("Validation error")
+            raise ValueError("Validation error") from exc
 
     @staticmethod
     def validate_tg_hash(request: Request):
@@ -84,10 +82,10 @@ class AuthService:
 
             parsed = AuthService._parse_telegram_init_data(init_data_str)
             AuthService._validate_telegram_webapp_data(parsed)
-        except Exception:
+        except Exception as exc:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid payload"
-            )
+            ) from exc
 
         return True
 
