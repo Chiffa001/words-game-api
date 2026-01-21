@@ -2,24 +2,24 @@
 VENV=.venv
 
 # Команды
-.PHONY: init install run migrate clean
+.PHONY: init install run migrate clean revision upgrade
 
 # Создание виртуального окружения и установка зависимостей
 init:
-	python3 -m venv $(VENV)
-	. $(VENV)/bin/activate && pip install --upgrade pip && pip install -r requirements.txt
+	uv venv $(VENV)
+	uv sync --dev
 
 # Установка зависимостей
 install:
-	. $(VENV)/bin/activate && pip install -r requirements.txt
+	uv sync --dev
 
 # Запуск сервера разработки
 run:
-	. $(VENV)/bin/activate && uvicorn app.main:app --host 0.0.0.0 --port 8000 --ssl-keyfile ./certs/192.168.10.146-key.pem --ssl-certfile ./certs/192.168.10.146.pem --reload
+	uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --ssl-keyfile ./certs/192.168.10.146-key.pem --ssl-certfile ./certs/192.168.10.146.pem --reload
 
 # Инициализация базы данных
 migrate:
-	. $(VENV)/bin/activate && python -c "from app.core.database import engine; from app.models.base_model import BaseModel; BaseModel.metadata.create_all(bind=engine)"
+	uv run python -c "from app.core.database import engine; from app.models.base_model import BaseModel; BaseModel.metadata.create_all(bind=engine)"
 
 # Очистка (удаление базы и кэшей)
 clean:
@@ -27,8 +27,16 @@ clean:
 	find . -type d -name "__pycache__" -exec rm -r {} +
 	rm -f ./test.db
 
+# Alembic миграции
+REV_MSG ?= "migration"
+revision:
+	uv run alembic revision --autogenerate -m "$(REV_MSG)"
+
+upgrade:
+	uv run alembic upgrade head
+
 lint:
-	. $(VENV)/bin/activate && pylint app/
+	uv run pylint app/
 
 mypy:
-	. $(VENV)/bin/activate && mypy app/
+	uv run mypy app/
