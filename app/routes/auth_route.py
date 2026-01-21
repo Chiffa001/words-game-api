@@ -11,6 +11,5 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 async def init(
     data: InitData,
     auth_service: AuthService = Depends(AuthService),
-    _=Depends(AuthService.validate_tg_hash),
 ):
     return await auth_service.init(data)

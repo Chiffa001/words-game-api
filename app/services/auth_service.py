@@ -73,7 +73,10 @@ class AuthService:
             raise ValueError("Validation error") from exc
 
     @staticmethod
-    def validate_tg_hash(request: Request):
+    def validate_tg_hash(request: Request) -> bool:
+        if request.url.path.startswith("/health"):
+            return True
+
         try:
             init_data_str = request.headers.get("x-tg-hash")
 

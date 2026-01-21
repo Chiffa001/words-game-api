@@ -1,7 +1,7 @@
 from asyncio import run
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 
@@ -9,6 +9,7 @@ from app.core.config import UI
 from app.core.database import engine
 from app.models.base_model import BaseModel
 from app.routes import auth_route, healthmonitor_route
+from app.services.auth_service import AuthService
 
 
 async def init_models():
@@ -25,7 +26,10 @@ async def lifespan(_: FastAPI):
     await engine.dispose()
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    lifespan=lifespan,
+    dependencies=[Depends(AuthService.validate_tg_hash)],
+)
 
 app.add_middleware(
     CORSMiddleware,
